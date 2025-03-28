@@ -8,23 +8,25 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { register } from "@/action/register";
 const RegisterForm = () => {
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
       name: "",
+      email: "",
+      password: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof RegisterSchema>) {
-    console.log(values);
+  function onSubmit(formData: z.infer<typeof RegisterSchema>) {
+    register(formData);
   }
   return (
     <div>
@@ -39,9 +41,32 @@ const RegisterForm = () => {
                 <FormControl>
                   <Input placeholder="shadcn" {...field} />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="shadcn" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input placeholder="shadcn" {...field} />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
