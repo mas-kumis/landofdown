@@ -36,16 +36,6 @@ const Navbar = () => {
                 <NavigationMenuLink>WIldan</NavigationMenuLink>
               </NavigationMenuContent>
             </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className="bg-slate-200">
-                Item One
-              </NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <NavigationMenuLink>WIldan</NavigationMenuLink>
-                <NavigationMenuLink>WIldan</NavigationMenuLink>
-                <NavigationMenuLink>WIldan</NavigationMenuLink>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
       </div>
