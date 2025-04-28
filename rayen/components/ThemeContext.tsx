@@ -1,22 +1,10 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useContext } from "react";
 
 type ThemeContextType = {
   theme: string;
   setTheme: (theme: string) => void;
 };
 const ThemeContext = createContext<ThemeContextType | null>(null);
-
-const Headers = () => {
-  const [theme, setTheme] = useState("light");
-  return (
-    <div>
-      <h1>Current Theme: {theme}</h1>
-      <button onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
-        Toggle Theme
-      </button>
-    </div>
-  );
-};
 
 const ThemeContextSection = () => {
   const [theme, setTheme] = useState("light");
@@ -27,4 +15,30 @@ const ThemeContextSection = () => {
   );
 };
 
+const Headers = () => {
+  const context = useContext(ThemeContext);
+  if (!context) return null;
+  const { theme, setTheme } = context;
+  const handleClick = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
+  return (
+    <div>
+      <h1 className="text-3xl font-bold">Theme Context Example</h1>
+      <p className="text-gray-600">
+        This is an example of using context to manage theme.
+      </p>
+      <button
+        onClick={handleClick}
+        className={`mt-4 p-2 rounded ${
+          theme === "light"
+            ? "bg-blue-500 text-white"
+            : "bg-gray-800 text-white"
+        }`}
+      >
+        Toggle Theme
+      </button>
+    </div>
+  );
+};
 export default ThemeContextSection;
