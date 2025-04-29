@@ -6,11 +6,14 @@ type ThemeContextType = {
 };
 const ThemeContext = createContext<ThemeContextType | null>(null);
 
-const ThemeContextSection = () => {
+type ThemeContextProps = {
+  children: React.ReactNode;
+};
+const ThemeContextSection = ({ children }: ThemeContextProps) => {
   const [theme, setTheme] = useState("light");
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
-      <Headers />
+      {children}
     </ThemeContext.Provider>
   );
 };
@@ -41,4 +44,6 @@ const Headers = () => {
     </div>
   );
 };
+
+ThemeContextSection.Headers = Headers;
 export default ThemeContextSection;
