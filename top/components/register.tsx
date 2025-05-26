@@ -12,37 +12,41 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { login } from "@/action/login";
 import toast from "react-hot-toast";
+import { register } from "@/action/register";
 
-export const LoginSchema = z.object({
+export const RegisterSchema = z.object({
+  name: z.string().min(2).max(50),
   email: z.string().email(),
   password: z.string().min(6),
 });
-export type LoginSchema = z.infer<typeof LoginSchema>;
+export type RegisterSchema = z.infer<typeof RegisterSchema>;
 
-type LoginResponse = {
+type RegisterResponse = {
   success?: string;
   error?: string;
 };
-export function LoginForm() {
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+export function RegisterForm() {
+  const form = useForm<z.infer<typeof RegisterSchema>>({
+    resolver: zodResolver(RegisterSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof LoginSchema>) {
-    login(values).then((res) => {
-      const resData = res as LoginResponse;
+  function onSubmit(values: z.infer<typeof RegisterSchema>) {
+    register(values).then((res) => {
+      const resData = res as RegisterResponse;
       if (resData.success) {
+        window.location.href = "/dashboard";
         toast.success(resData.success);
-        window.location.href = "/dashboard";    
+        form.reset();
       }
       if (resData.error) {
         toast.error(resData.error);
+        form.reset();
       }
     });
   }
@@ -50,6 +54,19 @@ export function LoginForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>name</FormLabel>
+              <FormControl>
+                <Input placeholder="shadcn" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="email"
@@ -76,7 +93,7 @@ export function LoginForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Login</Button>
+        <Button type="submit">Submit</Button>
       </form>
     </Form>
   );
